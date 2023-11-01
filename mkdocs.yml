@@ -1,0 +1,12 @@
+site_name: Lab 2, Authorization & Trust
+
+theme:
+  name: material
+
+nav:
+  - 'index.md'
+  - 'starter.md'
+  - 'implementation.md'
+  - 'testing.md'
+  - 'exploit.md'
+  - 'utility.md'
