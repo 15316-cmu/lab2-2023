@@ -11,6 +11,10 @@ Having implemented the client, you will turn your attention to the authorization
 * Develop familiarity with public-key authentication and how certificate authorities are used to establish trust.
 * Gain experience identifying flaws in code that deals with authentication decisions, and developing exploits that leverage such flaws.
 
+# Documentation
+
+There is [detailed documentation](https://15316-cmu.github.io/lab2-2023/) for this lab to get you started. Before writing any code, read this documentation thoroughly and make a plan. Pay extra attention to the [Getting started](https://15316-cmu.github.io/lab2-2023/starter/) section of the docs!
+
 # What to hand in
 
 Submit your work on Gradescope. Create a `zip` archive of the repository, but make sure that you have not included the directory `lab1-2022` at the root of the archive. Additionally, there is no need to hand in test cases or files in `src/__pycache__`, and doing so may slow down processing by the autograder.

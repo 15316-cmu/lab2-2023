@@ -1,7 +1,11 @@
 site_name: Lab 2, Authorization & Trust
+repo_url: https://github.com/15316-cmu/lab2-2023
 
 theme:
   name: material
+  icon:
+    logo: material/security-network
+    favicon: material/security-network
 
 nav:
   - 'index.md'
@@ -10,3 +14,4 @@ nav:
   - 'testing.md'
   - 'exploit.md'
   - 'utility.md'
+  - Repository: 'https://github.com/15316-cmu/lab2-2023'
