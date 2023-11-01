@@ -298,34 +298,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#authorization-logic" class="md-nav__link">
-    Authorization Logic
-  </a>
-  
-    <nav class="md-nav" aria-label="Authorization Logic">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#proof-goals" class="md-nav__link">
-    Proof goals
-  </a>
-  
-    <nav class="md-nav" aria-label="Proof goals">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     Getting started
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#tactics" class="md-nav__link">
     Tactics
   </a>
@@ -337,11 +316,6 @@
   <a href="#getting-started_1" class="md-nav__link">
     Getting started
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -461,34 +435,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#authorization-logic" class="md-nav__link">
-    Authorization Logic
-  </a>
-  
-    <nav class="md-nav" aria-label="Authorization Logic">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#proof-goals" class="md-nav__link">
-    Proof goals
-  </a>
-  
-    <nav class="md-nav" aria-label="Proof goals">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     Getting started
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#tactics" class="md-nav__link">
     Tactics
   </a>
@@ -500,11 +453,6 @@
   <a href="#getting-started_1" class="md-nav__link">
     Getting started
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -532,180 +480,17 @@
 
 
 <h1 id="implementing-your-prover">Implementing your prover</h1>
-<h2 id="authorization-logic">Authorization Logic</h2>
-<p>The logic is defined in <code>logic.py</code>. It is the same authorization logic that we have discussed in class. Note that there are three types of constants: agents, keys, and resources. 
-* <code>Agent</code> constants are always prefixed with <code>#</code>.
-* <code>Key</code> constants appear between brackets <code>[]</code>.
-* <code>Resource</code> constants appear between angle brackets <code>&lt;&gt;</code>.
-In formulas, locations expecting a constant of a particular type can also recieve a variable. So both of the following are syntactically valid formulas.</p>
-<pre><code>A says open(B, R)
-#A says open(#B, &lt;R&gt;)
-</code></pre>
-<p>A parser is provided in <code>src/parser.py</code>, so you can construct, for example, a sequent object by calling:</p>
-<pre><code>parse('P true, Q true |- A aff Q')
-</code></pre>
-<p>Note that writing <code>true</code> after truth (<code>Proposition</code>) judgements is optional for the parser. When parsing quantified formulas, note that you should surround the quantified formula with parentheses to avoid potential parser errors. So running,</p>
-<pre><code>parse('@x . @y . open(x, y)')
-</code></pre>
-<p>may result in a parser error. It should be run as follows:</p>
-<pre><code>parse('@x . (@y . (open(x, y)))')
-</code></pre>
-<details>
-    <summary><b>Further details: grammar, rules, and proofs</b></summary>
-
-The full grammar is given below. 
-
-<pre><code>&lt;agent&gt;   ::= x                            // variable
-            | #a                           // constant
-
-&lt;key&gt;     ::= x                            // variable
-            | [k]                          // constant
-
-&lt;resource&gt; ::= x                           // variable
-            | &lt;r&gt;                          // constant
-
-&lt;formula&gt; ::= x                            // variable
-            | &lt;formula&gt; -&gt; &lt;formula&gt;       // implication
-            | &lt;agent&gt; says &lt;formula&gt;
-            | iskey(&lt;agent&gt;, &lt;key&gt;)
-            | sign(&lt;formula&gt;, &lt;key&gt;)
-            | ca(&lt;agent&gt;)
-            | open(&lt;agent&gt;, &lt;resource&gt;)
-            | @x . &lt;formula&gt;               // universal quantifier
-
-&lt;judgement&gt; ::= &lt;formula&gt; true             // proposition
-              | &lt;agent&gt; aff &lt;formula&gt;      // affirmation
-
-&lt;sequent&gt; ::= &lt;judgement&gt;* |- &lt;judgement&gt;
-</code></pre>
-
-
-The proof rules available in this logic are listed in `proofrules.py`. The constructor for proof rules is given in `logic.py`.
-
-<pre><code>@dataclass(eq=True, frozen=True)
-class Rule:
-    premises: list[Sequent]
-    conclusion: Sequent
-    name: str
-</code></pre>
-
-As one might expect, a rule is comprised of a list of premises, each its own sequent, and a conclusion sequent. The convention that we use for specifying premises and the conclusion is illustrated by the left implication rule.
-
-<pre><code>Rule(
-    [
-        parse('|- P true'),
-        parse('Q true |- R true')
-    ],
-    parse('P -&gt; Q true |- R true'),
-    '-&gt;L'
-)
-</code></pre>
-
-Note that the indeterminate $\Gamma$ that is universally present in the typeset versions of rules in the lecture notes is missing. We assume that this is always present, and that rules can be matched against sequents that contain arbitrary sequences of judgements on the left of the turnstile. So the following sequents would all match this left implication rule:
-
-<pre><code>a, b, c, d -&gt; e |- f
-a -&gt; b |- f -&gt; a
-sign(iskey(#a, [k1]), [k2]), iskey(#a, [k1]) -&gt; (#a says P), iskey(#b, [k2]) |- #a says Q
-</code></pre>
-
-And the following would not, because there is no implication among the assumptions in the sequent:
-
-<pre><code>sign(iskey(#a, [k1]) -&gt; (#a says P), [k2]), iskey(#b, [k2]) |- #a says Q
-</code></pre>
-
-Rules are matched to sequents as described in lecture, and illustrated in `RuleTactic` (`prover.py`). Essentially, a sequent is first matched to the conclusion of a rule, to obtain one or more substitutions (by `matchs_sequent` in `logic.py`). For the following sequent, the left implication rule would match in two ways:
-
-<pre><code>a -&gt; b, (c -&gt; d) -&gt; e |- f
-</code></pre>
-
-The two distinct matchings yield the following substitutions from variables in the proof rule to formulas in the sequent:
-
-<pre><code>Substitution 1: P =&gt; a, Q =&gt; b, R =&gt; f
-Substitution 2: P =&gt; c -&gt; d, Q =&gt; e, R =&gt; f
-</code></pre>
-
-The substitutions obtained by matching the conclusion are applied to the premises of the proof rule, generating two new proof objectives for each substitution. For the first substitution,
-
-<pre><code>(c -&gt; d) -&gt; e |- a          (from the first rule premise)
-b, (c -&gt; d) -&gt; e |- f       (from the second rule prmise)
-</code></pre>
-
-And for the second substitution:
-
-<pre><code>a -&gt; b |- c -&gt; d
-a -&gt; b, e |- f
-</code></pre>
-
-Note that `RuleTactic` does not work for the quantifier rules `@L`, `@R`, and you will need to implement tactics for these formulas as discussed later in this readme.
-
-As illustrated in `RuleTactic`, proof rules are needed when constructing `Proof` objects (defined in `logic.py`).
-
-<pre><code>@dataclass(eq=True, frozen=True)
-class Proof:
-    premises: list[Proof | Sequent]
-    conclusion: Sequent
-    rule: Rule
-</code></pre>
-
-Each step of a proof much refer to a `Rule` defined in `proofrules.py`; you should not invent your own rules to use in proofs. Proofs are generated by `Tactic` objects (discussed in more detail below), but constructing them is straightforward. For example, we can manually write the following proof to reflect the first application of the left implication rule illustrated above.
-
-<pre><code>Proof(
-    [
-        parse('(c -&gt; d) -&gt; e |- a'),
-        parse('b, (c -&gt; d) -&gt; e |- f')
-    ],
-    parse('a -&gt; b, (c -&gt; d) -&gt; e |- f'),
-    impLeftRule
-)
-</code></pre>
-
-The identifier `impLeftRule` comes from `proofrules.py`. This pretty-prints as follows, using the `stringify` function in `util.py`:
-
-<pre><code>   ((c -&gt; d) -&gt; e) true |- a true  b true, ((c -&gt; d) -&gt; e) true |- f true
--&gt;L ------------------------------------------------------------------------
-                (a -&gt; b) true, ((c -&gt; d) -&gt; e) true |- f true
-</code></pre>
-
-
-Looking at the rules available in `proofrules.py`, most should be familiar from lecture. The exceptions are `impLeftAffRule`, `forallLeftAffRule`, and `affCutRule`.
-
-<pre><code>impLeftAffRule = Rule(
-    [
-        parse('|- P true'),
-        parse('Q true |- A aff R')
-    ],
-    parse('P -&gt; Q true |- A aff R'),
-    '-&gt;L'
-)
-
-forallLeftAffRule = Rule(
-    [parse('P(e) |- A aff Q')],
-    parse('@x . P(x) |- A aff Q'),
-    '@L'
-)
-
-affCutRule = Rule(
-    [
-        parse('|- P true'),
-        parse('P true |- A aff Q')
-    ],
-    parse('|- A aff Q'),
-    'affcut'
-)
-</code></pre>
-
-These rules are the same as their "normal" counterparts from lecture, but they match sequents with an affirmation judgement on the right. You are free to use these rules when constructing `Proof` objects, and doing so should make developing tactics less intricate, as you have more freedom to decide when to apply the right `says` rule.
-</details>
-
-<h3 id="proof-goals">Proof goals</h3>
-<p>For this lab, you will implement a prover that is able to construct authorization proofs for two delegation policies. The environment that these policies assume consists of the following agents:
-* <code>#ca</code>: the certificate authority
-* <code>#root</code>: the agent who ultimately provisions authorization
-* <code>#mfredrik</code>: authorized by <code>#root</code> to open <code>&lt;shared.txt&gt;</code> and <code>&lt;secret.txt&gt;</code>
-* <code>#aditi</code>: authorized by <code>#mfredrik</code> to open <code>&lt;secret.txt&gt;</code>
-* <code>#jack</code>: authorized by <code>#aditi</code> to open <code>&lt;secret.txt&gt;</code>
-* <code>#nuno</code>: authorized by <code>#jack</code> to open <code>&lt;secret.txt&gt;</code>
-* <code>#andrewid</code>: everyone in the class is authorized by <code>#root</code> to open <code>&lt;andrewid.txt&gt;</code>, by <code>#mfredrik</code> to open <code>#shared</code>, and by <code>#nuno</code> to open <code>&lt;secret.txt&gt;</code>.</p>
+<p>For this lab, you will implement a prover that is able to construct authorization proofs for two delegation policies. The environment that these policies assume consists of the following agents:</p>
+<ul>
+<li><code>#ca</code>: the certificate authority</li>
+<li><code>#root</code>: the agent who ultimately provisions authorization</li>
+<li><code>#mfredrik</code>: authorized by <code>#root</code> to open <code>&lt;shared.txt&gt;</code> and <code>&lt;secret.txt&gt;</code></li>
+<li><code>#dsduena</code>: authorized by <code>#mfredrik</code> to open <code>&lt;secret.txt&gt;</code></li>
+<li><code>#justinyo</code>: authorized by <code>#dsduena</code> to open <code>&lt;secret.txt&gt;</code></li>
+<li><code>#mdhamank</code>: authorized by <code>#justinyo</code> to open <code>&lt;secret.txt&gt;</code></li>
+<li><code>#suruih</code>: authorized by <code>#mdhamank</code> to open <code>&lt;secret.txt&gt;</code></li>
+<li><code>#andrewid</code>: everyone in the class is authorized by <code>#root</code> to open <code>&lt;andrewid.txt&gt;</code>, by <code>#mfredrik</code> to open <code>#shared</code>, and by <code>#nuno</code> to open <code>&lt;secret.txt&gt;</code>.</li>
+</ul>
 <p>You will first want to prove that you are able to open <code>&lt;andrewid.txt&gt;</code>, for your Andrew ID.</p>
 <pre><code>... |- #root says open(#andrewid, &lt;andrewid.txt&gt;)
 </code></pre>
