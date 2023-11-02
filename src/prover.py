@@ -78,9 +78,9 @@ class SignTactic(Tactic):
 
     Then it would yield the following proof.
 
-                      T.0  T.1
-cut -------------------------------------------------
-      iskey(#a, [k]), sign(open(#b, <r>), [k]) |- P
+                        T.0  T.1
+    cut -------------------------------------------------
+        iskey(#a, [k]), sign(open(#b, <r>), [k]) |- P
 
     The premise `T.0` will be a closed proof of
     `#a says open(#b, <r>)` if and only if:
@@ -414,11 +414,4 @@ def prove(seq: Sequent) -> Optional[Proof]:
 
 if __name__ == '__main__':
 
-    with open('prover_tests.txt', 'r') as f:
-        tests = [parse(line) for line in f.readlines()]
-    for (i, test) in enumerate(tests):
-        pf = prove(test)
-        if pf is not None and len(verify(pf)) == 0:
-            print(f'passed test {i}')
-        else:
-            print(f'failed test {i}')
+    pass

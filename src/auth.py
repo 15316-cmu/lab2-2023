@@ -194,7 +194,7 @@ if __name__ == '__main__':
 
 			print('sending to authorization server:')
 			print(req)
-			request = Request("http://mfredrik.ini.cmu.edu:15316/accessrequest",
+			request = Request("http://authproof.net:15316/accessrequest",
 							  data=urlencode({
 								  "request": req.serialize()
 							  }).encode('utf-8'),

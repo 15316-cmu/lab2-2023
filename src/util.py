@@ -332,7 +332,7 @@ def fmla_stringify(p: Formula) -> str:
 def judgement_stringify(j: Judgement) -> str:
     match j:
         case Proposition(p):
-            return f'{fmla_stringify(p)} true'
+            return f'{fmla_stringify(p)}'
         case Affirmation(a, p):
             return f'{a.id} aff {fmla_stringify(p)}'
         case _:
@@ -341,7 +341,8 @@ def judgement_stringify(j: Judgement) -> str:
             )
 
 def sequent_stringify(seq: Sequent, max_line: int=None, include_gamma=False, trunc_context=False) -> str:
-    gamma = [judgement_stringify(p) for p in seq.gamma]
+    # gamma = [judgement_stringify(p) for p in seq.gamma]
+    gamma = [fmla_stringify(p.p) for p in seq.gamma]
     delta = [judgement_stringify(seq.delta)]
     
     total_len = sum([len(p) for p in gamma]) + sum([len(q) for q in delta]) + 3
