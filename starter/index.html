@@ -279,6 +279,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    Credentials
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
   </a>
@@ -286,8 +293,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#credentials" class="md-nav__link">
-    Credentials
+  <a href="#private-keys" class="md-nav__link">
+    Private keys
   </a>
   
 </li>
@@ -301,6 +308,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sequents-and-judgements" class="md-nav__link">
+    Sequents and judgements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#proof-rules" class="md-nav__link">
     Proof rules
   </a>
@@ -309,6 +323,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next steps
+  </a>
   
 </li>
       
@@ -330,7 +351,45 @@
         
   
   <span class="md-ellipsis">
-    Implementing your prover
+    Authorization goals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authorization mechanics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tactics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The prover
   </span>
   
 
@@ -396,25 +455,6 @@
   
 
     
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="https://github.com/15316-cmu/lab2-2023" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Repository
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -442,6 +482,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    Credentials
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
   </a>
@@ -449,8 +496,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#credentials" class="md-nav__link">
-    Credentials
+  <a href="#private-keys" class="md-nav__link">
+    Private keys
   </a>
   
 </li>
@@ -464,6 +511,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sequents-and-judgements" class="md-nav__link">
+    Sequents and judgements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#proof-rules" class="md-nav__link">
     Proof rules
   </a>
@@ -472,6 +526,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next steps
+  </a>
   
 </li>
       
@@ -501,19 +562,8 @@
 <p>You should then copy your private key, along with the credentials that you will need into the repository directory. Assuming <code>&lt;id&gt;</code> is your Andrew ID, run the following command:</p>
 <pre><code>scp -r &lt;id&gt;@linux.andrew.cmu.edu:/afs/andrew.cmu.edu/usr8/mfredrik/15316-f23/&lt;id&gt;/* .
 </code></pre>
-<h2 id="certificates">Certificates</h2>
-<p>You should now have a <code>certs</code> directory with the following files (assuming <code>&lt;id&gt;</code> is your Andrew ID).</p>
-<pre><code>&lt;id&gt;.cert
-ca.cert
-dsduena.cert
-justinyo.cert
-mdhamank.cert
-mfredrik.cert
-root.cert
-siruih.cert
-</code></pre>
 <h2 id="credentials">Credentials</h2>
-<p>In the <code>credentials</code> directory, you should have the following.</p>
+<p>You should now have a <code>credentials</code> directory with the following contents:</p>
 <pre><code>&lt;id&gt;_secret.cred
 &lt;id&gt;_shared.cred
 &lt;id&gt;_txt.cred
@@ -526,53 +576,112 @@ policy1.cred
 policy2.cred
 siruih_secret.cred
 </code></pre>
+<p>A <em>credential</em> is a formula expresses the policy intent of an agent, that is signed by their private key to provide authenticity. For example, <code>policy1.cred</code> contains the following:</p>
+<pre><code>{
+  &quot;p&quot;: &quot;(@A . (((#mfredrik says open(A, &lt;shared.txt&gt;)) -&gt; open(A, &lt;shared.txt&gt;))))&quot;,
+  &quot;signator&quot;: &quot;#root&quot;,
+  &quot;signature&quot;: &quot;c397b1d047279a4f544ae7eecafed3939b2780bc4f61b443849ec62069ce2b8353c5805cb102753f9b309d12541cc25349cced3cb830a137e30610f677068d02&quot;
+}
+</code></pre>
+<p>Here, <code>p</code> contains the policy formula, <code>signator</code> refers to the agent who signed the formula, and the bytes of the actual digital signature are given in <code>signature</code>.
+We are more familiar working with credentials as <code>sign</code> formulas, and we can get such a formula from the credential, and pretty-print it using <code>util.stringify</code>:</p>
+<pre><code>&gt; import crypto, util
+&gt; cred = crypto.Credential.load_credential('credentials/policy1.cred')
+&gt; print(stringify(cred.sign_formula()))
+sign(((@A . (((#mfredrik says open(A, &lt;shared.txt&gt;)) -&gt; open(A, &lt;shared.txt&gt;))))), [2b:8f:e8:9b])
+</code></pre>
+<p>The second argument appearing in square brackets is a digest of the signer's public key.</p>
+<p>Each policy used in this lab has a corresponding credential; the details of those policies are described in the implementation section of this documentation.
+You do not need to worry about manually loading credentials in most cases, as <code>auth.load_all_credentials</code> will do it for you.</p>
+<h2 id="certificates">Certificates</h2>
+<p>You should now have a <code>certs</code> directory with the following files (assuming <code>&lt;id&gt;</code> is your Andrew ID).</p>
+<pre><code>&lt;id&gt;.cert
+ca.cert
+dsduena.cert
+justinyo.cert
+mdhamank.cert
+mfredrik.cert
+root.cert
+siruih.cert
+</code></pre>
+<p>A <em>certificate</em> is a formula in which a certificate authority (identified by <code>#ca</code> in this lab) signs that a public key belongs to a given agent:</p>
+<pre><code>sign(iskey(#agent, [agent_key_fingerprint]), [ca_key_fingerprint])
+</code></pre>
+<p>A key fingerprint is a string that uniquely identifies a public key, for example <code>[68:d7:6c:b7:95:fb:a4:f7:a7:4f:12:44:6f:27:c5:40]</code>.</p>
+<details>
+<summary>What's in a certificate?</summary>
+
+Looking at `certs/root.cert`, the contents are as follows.
+
+<pre><code>{
+  &quot;agent&quot;: &quot;#root&quot;,
+  &quot;cred&quot;: {
+    &quot;p&quot;: &quot;iskey(#root, [2b:8f:e8:9b:8b:76:37:a7:3b:7e:85:49:9d:87:7b:3b])&quot;,
+    &quot;signator&quot;: &quot;#ca&quot;,
+    &quot;signature&quot;: &quot;4c120014db10eade1ab7a14f6745c94067f13bb38e4424c8084c24688a062268db37a08f480f571c90700afae07070c96428965cd19d20d3d2f105231ee60706&quot;
+  },
+  &quot;public_key&quot;: &quot;2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d436f77425159444b32567741794541506844563357384a466d45547767366d69396b416262484e2b5742506c4e586f743372486f36466e5430303d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a&quot;
+}
+</code></pre>
+
+Notice that the actual formula is given in `cert.cred.p`, in addition to easily-accessible metadata such as which party's public key is being certified (`cert.agent = #root`) and who the CA is (`cert.cred.signator = ca`).
+
+<p>
+
+Additionally, certificate files contain the base64-encoded digital signature (`cert.cred.signature`), signed using the public key of `cert.cred.signator`, as well as the public key of `cert.agent` (in this case, `#root`) in `cert.public_key`. If `#root` were to sign a credential, then it could be verified using this public key.
+</details>
+
+<h2 id="private-keys">Private keys</h2>
 <p>Finally, in the <code>private_keys</code> directory, you should see:</p>
 <pre><code>&lt;id&gt;.pem
 </code></pre>
+<p>You do not need to worry about the specific details of private keys, and you will not need to work directly with them: the code handed out with this lab takes care of creating signatures and certificates from private keys that you have access to.
+The APIs for doing this are discussed in more detail in <a href="../exploit/">exploiting a vulnerability</a>.</p>
 <h2 id="authorization-logic">Authorization Logic</h2>
-<p>The logic is defined in <code>logic.py</code>. It is the same authorization logic that we have discussed in class. Note that there are three types of constants: agents, keys, and resources. 
-* <code>Agent</code> constants are always prefixed with <code>#</code>.
-* <code>Key</code> constants appear between brackets <code>[]</code>.
-* <code>Resource</code> constants appear between angle brackets <code>&lt;&gt;</code>.
-In formulas, locations expecting a constant of a particular type can also recieve a variable. So both of the following are syntactically valid formulas.</p>
+<p><code>logic.py</code> defines the authorization logic that we have discussed in class. 
+There are three types of constants: agents, keys, and resources. </p>
+<ul>
+<li><code>Agent</code> constants are prefixed with <code>#</code>.</li>
+<li><code>Key</code> constants appear between brackets <code>[]</code>.</li>
+<li><code>Resource</code> constants appear between angle brackets <code>&lt;&gt;</code>.</li>
+</ul>
+<p>In formulas, locations expecting a constant of a particular type can also recieve a variable, which is just an alphanumeric string that is not prefixed with any special characters. 
+Both of the following are syntactically valid formulas, where the first has three variables that are replaced by corresponding constants in the second.</p>
 <pre><code>A says open(B, R)
 #A says open(#B, &lt;R&gt;)
 </code></pre>
-<p>A parser is provided in <code>src/parser.py</code>, so you can construct, for example, a sequent object by calling:</p>
-<pre><code>parse('P true, Q true |- A aff Q')
+<p>A parser is provided in <code>parser.py</code>, and we strongly recommend that you use the parser to construct formula objects, rather than building them manually from the constructors in <code>logic.py</code>.</p>
+<pre><code>&gt; parse('A says P')
+App(op=&lt;Operator.SAYS: 7&gt;, arity=2, args=[Variable(id='A'), Variable(id='P')])
 </code></pre>
-<p>Note that writing <code>true</code> after truth (<code>Proposition</code>) judgements is optional for the parser. When parsing quantified formulas, note that you should surround the quantified formula with parentheses to avoid potential parser errors. So running,</p>
+<p>The logic supports universal quantifiers, and uses the <code>@</code> symbol for them.
+When parsing quantified formulas, note that you should surround the quantified formula with parentheses to avoid potential parser errors. 
+So the following may result in a parser error. </p>
 <pre><code>parse('@x . @y . open(x, y)')
 </code></pre>
-<p>may result in a parser error. It should be run as follows:</p>
+<p>It should be run as follows.</p>
 <pre><code>parse('@x . (@y . (open(x, y)))')
 </code></pre>
-<p>The full grammar is given below. </p>
-<pre><code>&lt;agent&gt;   ::= x                            // variable
-            | #a                           // constant
-
-&lt;key&gt;     ::= x                            // variable
-            | [k]                          // constant
-
-&lt;resource&gt; ::= x                           // variable
-            | &lt;r&gt;                          // constant
-
-&lt;formula&gt; ::= x                            // variable
-            | &lt;formula&gt; -&gt; &lt;formula&gt;       // implication
-            | &lt;agent&gt; says &lt;formula&gt;
-            | iskey(&lt;agent&gt;, &lt;key&gt;)
-            | sign(&lt;formula&gt;, &lt;key&gt;)
-            | ca(&lt;agent&gt;)
-            | open(&lt;agent&gt;, &lt;resource&gt;)
-            | @x . &lt;formula&gt;               // universal quantifier
-
-&lt;judgement&gt; ::= &lt;formula&gt; true             // proposition
-              | &lt;agent&gt; aff &lt;formula&gt;      // affirmation
-
-&lt;sequent&gt; ::= &lt;judgement&gt;* |- &lt;judgement&gt;
+<h3 id="sequents-and-judgements">Sequents and judgements</h3>
+<p>When building sequents, our authorization logic distinguishes between affirmation justdments and truth judgements.
+Truth judgements are denoted by writing <code>true</code> after a formula, and are represented by the <code>Proposition</code> class in <code>logic.py</code>.</p>
+<pre><code>&gt; parse('(P -&gt; Q) true')
+Proposition(p=App(op=&lt;Operator.IMPLIES: 4&gt;, arity=2, args=[Variable(id='P'), Variable(id='Q')]))
+</code></pre>
+<p>Affirmation judgements are denoted by juxtaposing a principal, <code>aff</code>, and a formula.</p>
+<pre><code>&gt; parse('A aff P -&gt; Q')
+Affirmation(a=Variable(id='A'), p=App(op=&lt;Operator.IMPLIES: 4&gt;, arity=2, args=[Variable(id='P'), Variable(id='Q')]))
+</code></pre>
+<p>Sequents are expressed using <code>|-</code>, and accept either type of judgement on the right.</p>
+<pre><code>&gt; parse('P |- A aff P')
+Sequent(gamma=[Proposition(p=Variable(id='P'))], delta=Affirmation(a=Variable(id='A'), p=Variable(id='P')))
+</code></pre>
+<p>Note that if you do not write <code>true</code> to expressly denote a truth judgement, the parser will assume that this was what you intended to do.</p>
+<pre><code>&gt; parse('P |- Q')
+Sequent(gamma=[Proposition(p=Variable(id='P'))], delta=Proposition(p=Variable(id='Q')))
 </code></pre>
 <h3 id="proof-rules">Proof rules</h3>
-<p>The proof rules available in this logic are listed in <code>proofrules.py</code>. The constructor for proof rules is given in <code>logic.py</code>.</p>
+<p>The proof rules available in this logic are listed in <code>proofrules.py</code>.</p>
 <pre><code>@dataclass(eq=True, frozen=True)
 class Rule:
     premises: list[Sequent]
@@ -589,38 +698,14 @@ class Rule:
     '-&gt;L'
 )
 </code></pre>
-<p>Note that the indeterminate $\Gamma$ that is universally present in the typeset versions of rules in the lecture notes is missing. We assume that this is always present, and that rules can be matched against sequents that contain arbitrary sequences of judgements on the left of the turnstile. So the following sequents would all match this left implication rule:</p>
-<pre><code>a, b, c, d -&gt; e |- f
-a -&gt; b |- f -&gt; a
-sign(iskey(#a, [k1]), [k2]), iskey(#a, [k1]) -&gt; (#a says P), iskey(#b, [k2]) |- #a says Q
-</code></pre>
-<p>And the following would not, because there is no implication among the assumptions in the sequent:</p>
-<pre><code>sign(iskey(#a, [k1]) -&gt; (#a says P), [k2]), iskey(#b, [k2]) |- #a says Q
-</code></pre>
-<p>Rules are matched to sequents as described in lecture, and illustrated in <code>RuleTactic</code> (<code>prover.py</code>). Essentially, a sequent is first matched to the conclusion of a rule, to obtain one or more substitutions (by <code>matchs_sequent</code> in <code>logic.py</code>). For the following sequent, the left implication rule would match in two ways:</p>
-<pre><code>a -&gt; b, (c -&gt; d) -&gt; e |- f
-</code></pre>
-<p>The two distinct matchings yield the following substitutions from variables in the proof rule to formulas in the sequent:</p>
-<pre><code>Substitution 1: P =&gt; a, Q =&gt; b, R =&gt; f
-Substitution 2: P =&gt; c -&gt; d, Q =&gt; e, R =&gt; f
-</code></pre>
-<p>The substitutions obtained by matching the conclusion are applied to the premises of the proof rule, generating two new proof objectives for each substitution. For the first substitution,</p>
-<pre><code>(c -&gt; d) -&gt; e |- a          (from the first rule premise)
-b, (c -&gt; d) -&gt; e |- f       (from the second rule prmise)
-</code></pre>
-<p>And for the second substitution:</p>
-<pre><code>a -&gt; b |- c -&gt; d
-a -&gt; b, e |- f
-</code></pre>
-<p>Note that <code>RuleTactic</code> does not work for the quantifier rules <code>@L</code>, <code>@R</code>, and you will need to implement tactics for these formulas as discussed later in this readme.</p>
-<p>As illustrated in <code>RuleTactic</code>, proof rules are needed when constructing <code>Proof</code> objects (defined in <code>logic.py</code>).</p>
+<p>Proof rules and sequents are composed to build <code>Proof</code> objects.</p>
 <pre><code>@dataclass(eq=True, frozen=True)
 class Proof:
     premises: list[Proof | Sequent]
     conclusion: Sequent
     rule: Rule
 </code></pre>
-<p>Each step of a proof much refer to a <code>Rule</code> defined in <code>proofrules.py</code>; you should not invent your own rules to use in proofs. Proofs are generated by <code>Tactic</code> objects (discussed in more detail below), but constructing them is straightforward. For example, we can manually write the following proof to reflect the first application of the left implication rule illustrated above.</p>
+<p>Each step of a proof much refer to a <code>Rule</code> defined in <code>proofrules.py</code>; you should not invent your own rules to use in proofs. Proofs are generated by <em>tactics</em> in this lab (more on this later), but for the purposes of illustration, we can manually write the following proof to reflect and application of the left implication rule.</p>
 <pre><code>Proof(
     [
         parse('(c -&gt; d) -&gt; e |- a'),
@@ -630,10 +715,23 @@ class Proof:
     impLeftRule
 )
 </code></pre>
-<p>The identifier <code>impLeftRule</code> comes from <code>proofrules.py</code>. This pretty-prints as follows, using the <code>stringify</code> function in <code>util.py</code>:</p>
+<p>The <code>stringify</code> helper from <code>util.py</code> will print this out nicely.</p>
 <pre><code>   ((c -&gt; d) -&gt; e) true |- a true  b true, ((c -&gt; d) -&gt; e) true |- f true
 -&gt;L ------------------------------------------------------------------------
                 (a -&gt; b) true, ((c -&gt; d) -&gt; e) true |- f true
+</code></pre>
+<p>Note that your proofs may become wider than your screen.
+You can specify the width that <code>stringify</code> should be limited to with the <code>pf_width</code> keyword argument, and it will split premises apart from the main proof and print them separately.</p>
+<pre><code>&gt; print(stringify(pf, pf_width=50))
+                          T.0  T.1
+-&gt;L --------------------------------------------------
+      (a -&gt; b) true, ((c -&gt; d) -&gt; e) true |- f true
+
+Proof T.1:
+b true, ((c -&gt; d) -&gt; e) true |- f true
+
+Proof T.0:
+((c -&gt; d) -&gt; e) true |- a true
 </code></pre>
 <p>Looking at the rules available in <code>proofrules.py</code>, most should be familiar from lecture. The exceptions are <code>impLeftAffRule</code>, <code>forallLeftAffRule</code>, and <code>affCutRule</code>.</p>
 <pre><code>impLeftAffRule = Rule(
@@ -661,6 +759,39 @@ affCutRule = Rule(
 )
 </code></pre>
 <p>These rules are the same as their "normal" counterparts from lecture, but they match sequents with an affirmation judgement on the right. You are free to use these rules when constructing <code>Proof</code> objects, and doing so should make developing tactics less intricate, as you have more freedom to decide when to apply the right <code>says</code> rule.</p>
+<details>
+
+<summary>Full grammar of the logic</summary>
+
+
+<pre><code>&lt;agent&gt;   ::= x                            // variable
+            | #a                           // constant
+
+&lt;key&gt;     ::= x                            // variable
+            | [k]                          // constant
+
+&lt;resource&gt; ::= x                           // variable
+            | &lt;r&gt;                          // constant
+
+&lt;formula&gt; ::= x                            // variable
+            | &lt;formula&gt; -&gt; &lt;formula&gt;       // implication
+            | &lt;agent&gt; says &lt;formula&gt;
+            | iskey(&lt;agent&gt;, &lt;key&gt;)
+            | sign(&lt;formula&gt;, &lt;key&gt;)
+            | ca(&lt;agent&gt;)
+            | open(&lt;agent&gt;, &lt;resource&gt;)
+            | @x . &lt;formula&gt;               // universal quantifier
+
+&lt;judgement&gt; ::= &lt;formula&gt; true             // proposition
+              | &lt;agent&gt; aff &lt;formula&gt;      // affirmation
+
+&lt;sequent&gt; ::= &lt;judgement&gt;* |- &lt;judgement&gt;
+</code></pre>
+
+</details>
+
+<h2 id="next-steps">Next steps</h2>
+<p>Now that you're familiar with the building blocks needed to write authorization proofs, check out the <a href="../implementation/">authorization goals</a> for the lab.</p>
 
 
 

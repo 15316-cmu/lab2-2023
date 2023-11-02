@@ -1,0 +1,708 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../auth/">
+      
+      
+        <link rel="next" href="../testing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
+    
+    
+      
+        <title>The prover - Lab 2, Authorization & Trust</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-prover" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Lab 2, Authorization &amp; Trust" class="md-header__button md-logo" aria-label="Lab 2, Authorization & Trust" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-1.66C8.07 16.13 6 13 6 9.67v-4L12 3l6 2.67v4c0 3.33-2.07 6.46-5 7.67V19M12 5 8 6.69V10h4V5m0 5v6c1.91-.47 4-2.94 4-5v-1h-4Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lab 2, Authorization & Trust
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The prover
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/15316-cmu/lab2-2023" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Lab 2, Authorization &amp; Trust" class="md-nav__button md-logo" aria-label="Lab 2, Authorization & Trust" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-1.66C8.07 16.13 6 13 6 9.67v-4L12 3l6 2.67v4c0 3.33-2.07 6.46-5 7.67V19M12 5 8 6.69V10h4V5m0 5v6c1.91-.47 4-2.94 4-5v-1h-4Z"/></svg>
+
+    </a>
+    Lab 2, Authorization & Trust
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/15316-cmu/lab2-2023" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../starter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authorization goals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authorization mechanics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    The prover
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    The prover
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provided-examples" class="md-nav__link">
+    Provided examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chaining-tactics" class="md-nav__link">
+    Chaining Tactics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tip-dont-forget-to-cut" class="md-nav__link">
+    Tip: don't forget to Cut
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing your prover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exploit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exploiting a vulnerability
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utility code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provided-examples" class="md-nav__link">
+    Provided examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chaining-tactics" class="md-nav__link">
+    Chaining Tactics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tip-dont-forget-to-cut" class="md-nav__link">
+    Tip: don't forget to Cut
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="the-prover">The prover</h1>
+<p>Your task is to implement <code>prove</code> in <code>prover.py</code> to discharge each of the authorization goals described in the previous section.
+As discussed in lecture, your prover will make use of a set of tactics that you design to construct authorization proofs. A tactic is simply a class with the following signature:</p>
+<pre><code>class Tactic(ABC):
+
+    @abstractmethod
+    def apply(self, seq: Sequent) -&gt; set[Proof]:
+        return set([seq])
+</code></pre>
+<p>The <code>apply</code> method accepts a sequent, and generates a set of proofs. </p>
+<h2 id="getting-started">Getting started</h2>
+<p>Begin by familiarizing yourself with the provided example tactics listed below, and read the  <a href="#chaining-tactics">Chaining Tactics</a> section below.
+Then, we recommend that you proceed roughly with the following steps.</p>
+<ol>
+<li>Implement the <code>CertTactic</code> whose behavior was described in the example from the previous section. Doing so should allow you to use <code>ThenTactic</code> to complete the first authorization proof goal of the lab.</li>
+<li>Develop a tactic that allows you to take advantage of the first delegation policy, which contains a single universal quantifier. You may use <code>InstantiateForallTactic</code>, but it may help to first attempt the proof manually to see how to use this tactic effectively. This will allow you to develop a <code>ThenTactic</code> that handles the second authorization proof goal, possibly using tactics that you developed for step 1.</li>
+<li>Start a manual proof of the third authorization goal. Closing it out will be tedious, but likely unnecessary in order to gain enough insight to plan a tactic for this goal. To minimize the amount of additional work required, look for ways to reuse the tactics that you developed for earlier goals.</li>
+</ol>
+<p>As you proceed, there are several things that may be helpful to keep in mind.</p>
+<ul>
+<li>Do not implement a prover that can handle more general delegation policies, or anything beyond the three goals of this lab. Your prover only needs to produce proofs for the policies and formulas given in the previous section, so don't do more work than necessary!</li>
+<li>When considering how to handle transitive delegation (i.e., the third authorization goal), look for ways to do "work" outside of tactics. For example, it may be wise to scan the assumptions in the sequent given to <code>prover</code> to first figure out which agents are involved in a delegation chain leading from <code>#root</code> to <code>#andrewid</code>, and use that information to determine which tactics to include in a sequence given to <code>ThenTactic</code>. This will allow the tactics themselves to be simpler and more narrowly-focused on making definite progress towards closing out a proof.</li>
+<li>Part of your grade will be calculated by the number of unnecessary credentials and certificates that your authorization requests contain: your proof should not rely on credentials that are not actually needed to make a successful authorization. You should consider this when designing tactics that deal with <code>sign(...)</code> formulas: they could all be converted to <code>says</code> formulas eagerly before doing anything else, but this would mean that your proof would always rely on <em>every</em> certificate and credential provided in the context. It is better to consider tactics that only make use of <code>sign</code> formulas when they are needed to make progress handling the delegation policy.</li>
+<li>It's fine to start small: write tactics that emulate the steps that you would take to complete a proof by hand, and test them early. Use these tactics as building blocks to handle more complex formulas, until you are able to complete the authorization requests described in the previous section.</li>
+</ul>
+<h2 id="provided-examples">Provided examples</h2>
+<p>Several tactics are provided for you in <code>prover.py</code>. </p>
+<ul>
+<li><code>InstantiateForallTactic</code>: use the left universal quantifier rule to instantiate a quantified assumption with a chosen term to substitute in for the quantified variable. For example, a tactic constructed as <code>InstantiateForallTactic([Agent('#mfredrik')])</code> and applied to <code>@x . open(x, &lt;r&gt;) |- open(#andrewid, &lt;r&gt;)</code>, would yield a proof that applies <code>@L</code> once, ending with the (unclosed) sequent <code>open(#mfredrik, &lt;r&gt;) |- open(#andrewid, &lt;r&gt;)</code>.</li>
+<li><code>SignTactic</code>: apply the <code>Sign</code> rule to a specified <code>sign</code> formula in the assumptions, replacing it with the corresponding <code>says</code> formula. The docstring for this tactic provides an example of its use.</li>
+<li><code>RuleTactic</code>: apply a given proof rule, which is passed to the constructor. We detailed this tactic in lecture, and show examples of its use below.</li>
+<li><code>ThenTactic</code>: apply a given sequence of tactics to make progress towards closing a proof. This is the most important "meta" tactic that you will use, as it allows you to chain tactics together, mirroring the process that you would take to writing a proof manually.</li>
+<li><code>OrElseTactic</code>: given a sequence of tactics, apply them (in order) until one makes progress. Once progress has been made, exit the tactic.</li>
+</ul>
+<h2 id="chaining-tactics">Chaining Tactics</h2>
+<p>Although we did not describe it as such, we have been using tactics throughout the semester when we demonstrate reasoning using formal inference rules and sequent proofs.
+For example, to write a proof for the sequent:</p>
+<pre><code>R |- P -&gt; Q -&gt; R
+</code></pre>
+<p>You may immediately think, "apply the right implication rule twice, and then apply the identity rule to close the proof".
+This approach is formalized by composing <code>ThenTactic</code> with several instances of <code>RuleTactic</code>.</p>
+<pre><code>t = ThenTactic([
+    RuleTactic(impRightRule),
+    RuleTactic(impRightRule),
+    RuleTactic(identityRule)
+])
+</code></pre>
+<p>Applying the above tactic to the sequent in question yields a losed proof.</p>
+<pre><code>                          *
+      id ------------------------------------
+           Q true, P true, R true |- R true
+   -&gt;R ------------------------------------------
+           R true, P true |- (Q -&gt; R) true
+-&gt;R -------------------------------------------------
+            R true |- (P -&gt; (Q -&gt; R)) true
+</code></pre>
+<p>Under the hood, <code>ThenTactic</code> accomplishes this by chaining incomplete proofs together.
+After applying the first <code>RuleTactic(impRightRule)</code>, the (single) resulting proof is:</p>
+<pre><code>   P true, R true |- (Q -&gt; R) true
+-&gt;R ---------------------------------
+    R true |- (P -&gt; (Q -&gt; R)) true
+</code></pre>
+<p><code>ThenTactic</code> checks to see if this proof has any unclosed branches, and finds that there is one branch that progress can be made on by applying the next rule.</p>
+<pre><code>P true, R true |- (Q -&gt; R) true
+</code></pre>
+<p>Applying the next tactic passed to <code>ThenTactic</code>, to attempt a proof of the sequent directly above, yields another unfinished proof.</p>
+<pre><code>   P true, R true, Q true |- R true
+-&gt;R ----------------------------------
+    P true, R true |- (Q -&gt; R) true
+</code></pre>
+<p><code>ThenTactic</code> finds the unfinished premise, and applies the final <code>RuleTactic(identityRule)</code>, to close it out.</p>
+<pre><code>                    *
+id ------------------------------------
+     P true, R true, Q true |- R true
+</code></pre>
+<p>Each time that <code>ThenTactic</code> applies the next tactic to derive a proof for an open branch, it substitutes the unfinished branch with that proof. For example, <code>P true, R true, Q true |- R true</code> from the penultimate proof is substituted with the proof directly above to work, in a backwards fashion, towards the original goal.</p>
+<pre><code>                       *
+   id ------------------------------------
+        Q true, P true, R true |- R true
+-&gt;R ------------------------------------------
+        P true, R true |- (Q -&gt; R) true
+</code></pre>
+<p>Chaining this proof with the original unfinished branch, <code>P true, R true |- (Q -&gt; R) true</code>, completes the proof.</p>
+<p>This approach can also be used to transform assumptions to the left of the sequent.
+Suppose that we have in our assumptions <code>iskey(#ca, [kca])</code>, <code>sign((iskey(#root, [kr])), [kca])</code>, and <code>sign((open(#a, &lt;a.txt&gt;)), [kr])</code>.
+We want to prove that <code>#root says open(#a, &lt;a.txt&gt;)</code>.
+If we were to implement a <code>CertTactic</code>, which takes an agent named in a certificate, their public key fingerprint, an agent who is a certificate authority, and the authority's public key certificate, then we might attempt to prove this goal with the following tactic.</p>
+<pre><code>t = ThenTactic([
+    SignTactic(parse('sign(iskey(#root, [kr]), [kca])'), Agent('#ca')),
+    CertTactic(Agent('#root'), Key('[kr]'), Agent('#ca'), Key('[ca]')),
+    SignTactic(parse('sign((open(#a, &lt;a.txt&gt;)), [kr])'), Agent('#root')),
+    RuleTactic(identityRule)
+])
+</code></pre>
+<p>Now we can think through the steps that <code>ThenTactic</code> will take.
+First applying <code>SignTactic</code> will yield a proof with two branches, <code>T.0</code> and <code>T.1</code>.</p>
+<pre><code>                                                           T.0  T.1
+cut --------------------------------------------------------------------------------------------------------------------------
+      iskey(#ca, [kca]), sign((iskey(#root, [kr])), [kca]), sign((open(#a, &lt;a.txt&gt;)), [kr]) |- #root says open(#a, &lt;a.txt&gt;)
+</code></pre>
+<p>The left branch <code>T.0</code> is a short proof that uses the <code>Sign</code> rule to prove <code>(#ca says iskey(#root, [kr]))</code> from the assumptions listed above.
+This branch is already closed, because <code>iskey(#ca, [kca])</code> and <code>sign((iskey(#root, [kr]), [kca])</code> are already in the assumptions.
+The right branch <code>T.1</code>, on the other hand, is just the following sequent:</p>
+<pre><code>iskey(#ca, [kca]), sign((open(#a, &lt;a.txt&gt;)), [kr]), (#ca says iskey(#root, [kr])) |- (#root says open(#a, &lt;a.txt&gt;))
+</code></pre>
+<p><code>ThenTactic</code> will apply the next tactic to continue making progress on it, but observe that the formula <code>sign((iskey(#root, [kr]), [kca])</code> has been replaced with <code>#ca says iskey(#root, [kr])</code>.
+This is useful, because the <code>Cert</code> rule has as a premise that if we want to derive <code>iskey(#root, [kr])</code>, then we need to prove <code>ca(#ca)</code> and <code>#ca says iskey(#root, [kr])</code>.
+Thus, to implement <code>CertTactic</code>, we want its <code>apply</code> method to take a sequent like the one above, and produce a proof like the following:</p>
+<pre><code>                                                        T.0  T.1
+cut -------------------------------------------------------------------------------------------------------------------
+      iskey(#ca, [kca]), sign((open(#a, &lt;a.txt&gt;)), [kr]), #ca says iskey(#root, [kr]) |- #root says open(#a, &lt;a.txt&gt;)
+</code></pre>
+<p>Where <code>T.0</code> is a short, closed proof that applies the <code>Cert</code> rule to prove <code>iskey(#root, [kr])</code>, and <code>T.1</code> is the following sequent which incorporates that result as an assumption:</p>
+<pre><code>iskey(#ca, [kca]), sign((open(#a, &lt;a.txt&gt;)), [kr]), iskey(#root, [kr]) |- #root says open(#a, &lt;a.txt&gt;)
+</code></pre>
+<p>This allows <code>ThenTactic</code> to apply the next tactic, <code>SignTactic(parse('sign((open(#a, &lt;a.txt&gt;)), [kr])'), Agent('#root'))</code>, to this sequent, yielding a new branch:</p>
+<pre><code>iskey(#ca, [kca]), #root says open(#a, &lt;a.txt&gt;), iskey(#root, [kr]) |- #root says open(#a, &lt;a.txt&gt;)
+</code></pre>
+<p>Finally, <code>ThenTactic</code> can close this one remaining branch with <code>RuleTactic(identityRule)</code>, and chain the intermediate proofs together to finish up.</p>
+<p>This is the approach that you should aim to take when developing your solution: write short, narrowly-focused tactics that can be combined with others using <code>ThenTactic</code> to complete proofs for each of the three goals.
+Develop insights for which tactics you need to write from your experience working through proofs manually, so that the sequence of tactics that you give to <code>ThenTactic</code> mirror your knowledge of how to complete sequent proofs of authorization logic formulas.</p>
+<h2 id="tip-dont-forget-to-cut">Tip: don't forget to <code>Cut</code></h2>
+<p>In lecture we mentioned that the authorization logic does not need the <code>Cut</code> rule: any proof that uses <code>Cut</code> can be rewritten without it. However, your tactics are free to produce proofs that use <code>Cut</code>, and you may find that it is more straightforward to use <code>Cut</code> when the <code>Sign</code> and <code>Cert</code> rules are needed than otherwise. Consider the following sequent, which we will refer to as <code>seq1</code>.</p>
+<pre><code>ca(#ca),
+iskey(#ca, [k1]),
+sign(iskey(#a, [k2]), [k1]),
+sign(iskey(#b, [k3]), [k1]),
+sign((#a says open(#c, &lt;r&gt;)) -&gt; open(#c, &lt;r&gt;), [k3])
+sign(open(#c, &lt;r&gt;), [k2])
+    |- #b says open(#c, &lt;r&gt;)
+</code></pre>
+<p>A proof for this needs to accomplish the following.</p>
+<ol>
+<li>"Unwrap" the certificates <code>sign(iskey(#a, [k2]), [k1])</code> and <code>sign(iskey(#b, [k3]), [k1])</code> to establish that <code>[k2]</code> belongs to <code>#a</code> and <code>[k3]</code> belongs to <code>#b</code>. Doing so entails obtaining <code>#ca says iskey(#a, [k2])</code> and <code>#ca says iskey(#b, [k3])</code> using the <code>Sign</code> rule.</li>
+<li>Obtain <code>#b says ((#a says open(#c, &lt;r&gt;)) -&gt; open(#c, &lt;r&gt;))</code> and <code>#a says open(#c, r)</code>.</li>
+<li>Make use of the previous two formulas to get <code>#b says open(#c, &lt;r&gt;)</code>.</li>
+</ol>
+<p>The rules that are needed for (1) are <code>Cert</code> and <code>Sign</code>. The <code>Cert</code> rule applies when we have an <code>iskey(A, [k])</code> judgement on the right of the sequent. Likewise, <code>Sign</code> applies when we have <code>A says P</code> judgements on the right. This is true in our case, as we are trying to prove <code>#b says open(#c, &lt;r&gt;)</code>, but we also want to obtain <code>#a says open(#c, &lt;r&gt;)</code> from the formula signed by <code>[k2]</code>, and in any event, we can't use <code>Sign</code> directly to obtain <code>#b says open(#c, &lt;r&gt;)</code> because <code>#b</code> did not directly sign <code>open(#c, &lt;r&gt;)</code>.</p>
+<p>The way to deal with this is to use <code>Cut</code> to formulate each goal that we need (and are able to prove from the existing assumptions), so that they become available in our assumptions for the rest of the proof. We could start by proving <code>#ca says iskey(#a, [k2])</code>.</p>
+<pre><code>p1 = Proof([p2, p3], parse('iskey(#ca, [k1]), sign(iskey(#a, [k2]), [k1]) |- #ca says iskey(#a, [k2])'), signRule)
+</code></pre>
+<p>The two premises of this proof themselves are proofs, which just apply the identity rule to show <code>iskey(#ca, [k1])</code> and <code>sign(iskey(#a, [k2]), [k1])</code>, respectively.</p>
+<pre><code>p2 = Proof([], parse('iskey(#ca, [k1]) |- iskey(#ca, [k1])'), identityRule)
+p3 = Proof([], parse('sign(iskey(#a, [k2]), [k1]) |- sign(iskey(#a, [k2]), [k1])'), identityRule)
+</code></pre>
+<p>This gives us a proof that <code>#ca says iskey(#a, [k2])</code>, which we will need when applying the <code>Cert</code> rule to ultimately prove <code>iskey(#a, [k2])</code>. Let <code>seq2</code> be the following sequent, from which we can continue with the proof after using <code>Cut</code> to establish <code>#ca says iskey(#a, [k2])</code>.</p>
+<pre><code>ca(#ca),
+iskey(#ca, [k1]),
+#ca says iskey(#a, [k2])
+sign(iskey(#b, [k3]), [k1]),
+sign((#a says open(#c, &lt;r&gt;)) -&gt; open(#c, &lt;r&gt;), [k3])
+sign(open(#c, &lt;r&gt;), [k2])
+    |- #b says open(#c, &lt;r&gt;)
+</code></pre>
+<p>The application of <code>Cut</code> is as follows.</p>
+<pre><code>Proof([p1, seq2], seq1, cutRule)
+</code></pre>
+<p>We can now continue the proof by working on <code>seq2</code>. The next step may be to apply <code>Cut</code> again, using the new assumption in <code>seq2</code> to prove <code>iskey(#a, [k2])</code> using <code>Cert</code>, so that it is available in the assumptions in the next sequent, in the right premise of that application of <code>Cut</code>.</p>
+<p>Before moving on, careful readers may have noticed that the assumptions in the sequent proved in <code>p1</code> are a subset of those in our original goal, <code>seq1</code>. Technically, we would need to apply a rule (weakening) several times to remove certain assumptions before this would be allowed. In this lab, tactics may produce proofs that apply weakening (i.e., remove assumptions) without a corresponding step in the proof; the verifier will not reject this. This makes proofs shorter and easier to read when printed to standard output, and thus hopefully easier to debug.</p>
+</details>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>

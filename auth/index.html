@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../starter/">
+        <link rel="prev" href="../implementation/">
       
       
-        <link rel="next" href="../auth/">
+        <link rel="next" href="../tactics/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Authorization goals - Lab 2, Authorization & Trust</title>
+        <title>Authorization mechanics - Lab 2, Authorization & Trust</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#authorization-goals" class="md-skip">
+        <a href="#authorization-mechanics" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authorization goals
+              Authorization mechanics
             
           </span>
         </div>
@@ -250,6 +250,25 @@
       
   
   
+  
+    <li class="md-nav__item">
+      <a href="../implementation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authorization goals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -265,7 +284,7 @@
           
   
   <span class="md-ellipsis">
-    Authorization goals
+    Authorization mechanics
   </span>
   
 
@@ -276,7 +295,7 @@
         
   
   <span class="md-ellipsis">
-    Authorization goals
+    Authorization mechanics
   </span>
   
 
@@ -298,22 +317,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#principals-and-high-level-policies" class="md-nav__link">
-    Principals and high-level policies
+  <a href="#step-1-gather-credentials" class="md-nav__link">
+    Step 1: Gather credentials
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-details" class="md-nav__link">
-    The details
+  <a href="#step-2-call-the-prover" class="md-nav__link">
+    Step 2: Call the prover
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-work-it-on-paper-first" class="md-nav__link">
-    Recommended: work it on paper first
+  <a href="#step-3-send-the-request" class="md-nav__link">
+    Step 3: Send the request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-the-response" class="md-nav__link">
+    Step 4: The response
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next steps
   </a>
   
 </li>
@@ -322,25 +355,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../auth/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Authorization mechanics
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -448,22 +462,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#principals-and-high-level-policies" class="md-nav__link">
-    Principals and high-level policies
+  <a href="#step-1-gather-credentials" class="md-nav__link">
+    Step 1: Gather credentials
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-details" class="md-nav__link">
-    The details
+  <a href="#step-2-call-the-prover" class="md-nav__link">
+    Step 2: Call the prover
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-work-it-on-paper-first" class="md-nav__link">
-    Recommended: work it on paper first
+  <a href="#step-3-send-the-request" class="md-nav__link">
+    Step 3: Send the request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-the-response" class="md-nav__link">
+    Step 4: The response
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next steps
   </a>
   
 </li>
@@ -486,51 +514,153 @@
   
 
 
-<h1 id="authorization-goals">Authorization goals</h1>
-<p>Your primary objective in the lab is to implement a prover that construct authorization proofs for three policies.</p>
-<h2 id="principals-and-high-level-policies">Principals and high-level policies</h2>
-<p>The environment that these policies assume includes the following agents:</p>
-<ul>
-<li><code>#ca</code>: the certificate authority</li>
-<li><code>#root</code>: the agent who ultimately provisions authorization</li>
-<li><code>#mfredrik</code>: authorized by <code>#root</code> to open <code>&lt;shared.txt&gt;</code> and <code>&lt;secret.txt&gt;</code></li>
-<li><code>#dsduenas</code>: authorized by <code>#mfredrik</code> to open <code>&lt;secret.txt&gt;</code></li>
-<li><code>#justinyo</code>: authorized by <code>#dsduenas</code> to open <code>&lt;secret.txt&gt;</code></li>
-<li><code>#mdhamank</code>: authorized by <code>#justinyo</code> to open <code>&lt;secret.txt&gt;</code></li>
-<li><code>#suruih</code>: authorized by <code>#mdhamank</code> to open <code>&lt;secret.txt&gt;</code></li>
-<li><code>#andrewid</code>: everyone in the class is authorized by <code>#root</code> to open <code>&lt;andrewid.txt&gt;</code>, by <code>#mfredrik</code> to open <code>#shared</code>, and by <code>#suruih</code> to open <code>&lt;secret.txt&gt;</code>.</li>
-</ul>
-<h2 id="the-details">The details</h2>
-<p>You will first prove that you are able to open <code>&lt;andrewid.txt&gt;</code>, for your Andrew ID. For example, if your Andrew ID is <code>satoshi</code>, then your proof goal will be:</p>
-<pre><code>... |- #root says open(#satoshi, &lt;satoshi.txt&gt;)
-</code></pre>
-<p>The context, or assumptions left of the turnstile, that your prover will be given, is populated automatically from the certificates and credentials distributed with the lab (discussed later).
-You should be able to use the credential in <code>andrewid_txt.cred</code> to discharge this goal. The credential consists of the following:</p>
-<pre><code>sign((open(#andrewid, &lt;andrewid.txt&gt;)), [2b:8f:e8:9b])
-</code></pre>
-<p>Your next objective will be the basic delegation policy, issued in <code>policy1.cred</code>:</p>
-<pre><code>sign(((@A . (((#mfredrik says open(A, &lt;shared.txt&gt;)) -&gt; open(A, &lt;shared.txt&gt;))))), [2b:8f:e8:9b])
-</code></pre>
-<p>Your prover should use this policy to prove that you can open <code>&lt;shared.txt&gt;</code>:</p>
-<pre><code>... |- #root says open(#andrewid, &lt;shared.txt&gt;)
-</code></pre>
-<p>To complete this goal, you will also need to use the fact that <code>#mfredrik</code> is authorized by <code>#root</code> to open <code>&lt;shared.txt&gt;</code>, issued in <code>mfredrik_shared.cred</code>.</p>
-<p>Finally, your prover will use the transitive delegation policy, also issued by <code>#root</code> in <code>policy2.cred</code>:</p>
-<pre><code>sign(((@A . ((@R . ((open(A, R) -&gt; (@B . (((A says open(B, R)) -&gt; open(B, R)))))))))), [2b:8f:e8:9b])
-</code></pre>
-<p>To prove that you can access <code>&lt;secret.txt&gt;</code>:</p>
-<pre><code>... |- #root says open(#andrewid, &lt;secret.txt&gt;)
-</code></pre>
-<p>To complete this objective, you will need to also make use of the chain of credentials from <code>#root -&gt; #mfredrik -&gt; #dsduenas -&gt; ... -&gt; #andrewid</code>.</p>
-<h2 id="recommended-work-it-on-paper-first">Recommended: work it on paper first</h2>
-<p>Before moving on, we recommend that you work the following out on pencil and paper.</p>
+<h1 id="authorization-mechanics">Authorization mechanics</h1>
+<p>An authorization server is running on port <code>15316</code> at <code>authproof.net</code>.
+Its job is to accept credentials and authorization proofs, verify them, and provide new credentials that allow clients to access resources that the server controls.
+It functions in the following way.</p>
 <ol>
-<li>Identify which of the certificates and credentials above are necessary to prove the first (and most straightforward) goal.</li>
-<li>Review using the <code>Cert</code> rule to prove <code>#ca says iskey(#root, [...])</code>.</li>
-<li>Review using the <code>Sign</code> rule to prove <code>#root says open(#andrewid, &lt;andrewid.txt&gt;)</code>.</li>
-<li>Put the pieces together to complete the proof of the first goal.</li>
+<li>When a client connects on port <code>15316</code>, it expects to recieve an <code>AccessRequest</code> object (defined in <code>crypto.py</code>) containing a signed request for a named resource on behalf of a user, a proof that the user is allowed to access that resource, and any credentials and certificates needed to verify that the proof is correct.</li>
+<li>The server calls <code>verify_request</code> (in <code>crypto.py</code>) on this access request.</li>
+<li>If the request can be verified, then the server returns a new credential signed by <code>#root</code> granting access to the requested resource.</li>
+<li>Otherwise, the server returns an error message.</li>
 </ol>
-<p>As you complete each proof goal, we suggest going back to this approach whenever you find yourself getting stuck. If you come to the course staff with questions, we will likely ask to see your work before providing assistance.</p>
+<p>The client is implemented in <code>auth.py</code>.</p>
+<pre><code>usage: auth.py [-h] [-s] requester resource
+
+Constructs an authorization request, with proof. Optionally sends the request to the authorization server.
+
+positional arguments:
+  requester           agent making the request (use your andrew id)
+  resource            resource under request (either shared.txt or andrewid.txt)
+
+options:
+  -h, --help          show this help message and exit
+  -s, --send_request  send the request to the authorization server
+</code></pre>
+<p>Running the command <code>python src/auth.py andrewid andrewid.txt</code> will cause the following to happen.</p>
+<h2 id="step-1-gather-credentials">Step 1: Gather credentials</h2>
+<p>The client will first populate a sequent with a proof goal, filling the context with all of the certificates in <code>certs</code> and credentials in <code>cred</code>.</p>
+<pre><code>ca(#ca) true,
+iskey(#ca, [43:c9:43:e6]) true,
+sign((iskey(#mdhamank, [71:14:55:85])), [43:c9:43:e6]) true,
+sign((iskey(#mfredrik, [d3:c6:2a:1b])), [43:c9:43:e6]) true,
+sign((iskey(#root, [2b:8f:e8:9b])), [43:c9:43:e6]) true,
+sign((iskey(#dsduena, [db:b2:b9:b7])), [43:c9:43:e6]) true,
+sign((iskey(#justinyo, [d2:15:e7:01])), [43:c9:43:e6]) true,
+sign((open(#andrewid, &lt;andrewid.txt&gt;)), [71:14:55:85]) true,
+sign((open(#andrewid, &lt;shared.txt&gt;)), [d3:c6:2a:1b]) true,
+sign((open(#andrewid, &lt;andrewid.txt&gt;)), [2b:8f:e8:9b]) true,
+sign((open(#dsduena, &lt;andrewid.txt&gt;)), [d3:c6:2a:1b]) true,
+sign((open(#justinyo, &lt;andrewid.txt&gt;)), [db:b2:b9:b7]) true,
+sign((open(#mdhamank, &lt;andrewid.txt&gt;)), [d2:15:e7:01]) true,
+sign((open(#mfredrik, &lt;andrewid.txt&gt;)), [2b:8f:e8:9b]) true,
+sign((open(#mfredrik, &lt;shared.txt&gt;)), [2b:8f:e8:9b]) true,
+sign(((@A . (((#mfredrik says open(A, &lt;shared.txt&gt;)) -&gt; open(A, &lt;shared.txt&gt;))))), [2b:8f:e8:9b]) true,
+sign(((@A . ((@R . ((open(A, R) -&gt; (@B . (((A says open(B, R)) -&gt; open(B, R)))))))))), [2b:8f:e8:9b]) true,
+sign((open(#siruih, &lt;andrewid.txt&gt;)), [71:14:55:85]) true
+    |-  (#root says open(#andrewid, &lt;andrewid.txt&gt;)) true
+</code></pre>
+<p>Each credential is added as a <code>sign(open(...), [...])</code> formula. The credentials in this example are shown below.</p>
+<pre><code>sign((open(#andrewid, &lt;andrewid.txt&gt;)), [71:14:55:85]) true,
+sign((open(#andrewid, &lt;shared.txt&gt;)), [d3:c6:2a:1b]) true,
+sign((open(#andrewid, &lt;andrewid.txt&gt;)), [2b:8f:e8:9b]) true,
+sign((open(#dsduena, &lt;andrewid.txt&gt;)), [d3:c6:2a:1b]) true,
+sign((open(#justinyo, &lt;andrewid.txt&gt;)), [db:b2:b9:b7]) true,
+sign((open(#mdhamank, &lt;andrewid.txt&gt;)), [d2:15:e7:01]) true,
+sign((open(#mfredrik, &lt;andrewid.txt&gt;)), [2b:8f:e8:9b]) true,
+sign((open(#mfredrik, &lt;shared.txt&gt;)), [2b:8f:e8:9b]) true,
+sign(((@A . (((#mfredrik says open(A, &lt;shared.txt&gt;)) -&gt; open(A, &lt;shared.txt&gt;))))), [2b:8f:e8:9b]) true,
+sign(((@A . ((@R . ((open(A, R) -&gt; (@B . (((A says open(B, R)) -&gt; open(B, R)))))))))), [2b:8f:e8:9b]) true,
+sign((open(#siruih, &lt;andrewid.txt&gt;)), [71:14:55:85]) true
+</code></pre>
+<p>Each certificate is added as a <code>sign(iskey(...), [...])</code> formula, shown below.</p>
+<pre><code>sign((iskey(#mdhamank, [71:14:55:85])), [43:c9:43:e6]) true,
+sign((iskey(#mfredrik, [d3:c6:2a:1b])), [43:c9:43:e6]) true,
+sign((iskey(#root, [2b:8f:e8:9b])), [43:c9:43:e6]) true,
+sign((iskey(#dsduena, [db:b2:b9:b7])), [43:c9:43:e6]) true,
+sign((iskey(#justinyo, [d2:15:e7:01])), [43:c9:43:e6]) true
+</code></pre>
+<p>The certificate authority and their key are added to the assumptions.</p>
+<pre><code>ca(#ca) true,
+iskey(#ca, [43:c9:43:e6]) true,
+</code></pre>
+<p>Each certificate is added as a <code>sign(iskey(...))</code> formula, signed with the key of <code>#ca</code>. So the example certificate for <code>#root</code> shown above would become the following assumption.</p>
+<pre><code>sign(
+    iskey(#root, [88:02:3f:fb:03:0f:c8:54:dc:75:f0:8e:cc:c3:54:22]),
+    [68:d7:6c:b7:95:fb:a4:f7:a7:4f:12:44:6f:27:c5:40]
+)
+</code></pre>
+<p>Finally, the following assumptions are always added, to establish that <code>#ca</code> is the trusted certificate authority, and that their key is already known.</p>
+<pre><code>ca(#ca)
+iskey(#ca, [68:d7:6c:b7:95:fb:a4:f7:a7:4f:12:44:6f:27:c5:40])
+</code></pre>
+<p>Finally, the request is reflected in the goal of the sequent. Namely, the user <code>#andrewid</code> requests access to <code>&lt;andrewid.txt&gt;</code>, and aims to show that this is authorized under <code>#root</code>'s policy.</p>
+<pre><code>(#root says open(#andrewid, &lt;andrewid.txt&gt;)) true
+</code></pre>
+<h2 id="step-2-call-the-prover">Step 2: Call the prover</h2>
+<p>The <code>prove</code> function in <code>prover.py</code> is called on this sequent. It either returns a proof or <code>None</code>.</p>
+<p>If the prover returns <code>None</code>, then the client prints a message and exits. Otherwise, the client begins generating a request to send to <code>authproof.net</code>.</p>
+<h2 id="step-3-send-the-request">Step 3: Send the request</h2>
+<p>With a proof in hand, the client calls <code>generate_request</code> (in <code>auth.py</code>).
+<code>generate_request</code> inspects the proof, and determins which credentials and certificates are needed to verify the proof.
+In this example, only the credential in <code>andrewid_txt.cred</code>, which is signed by <code>#root</code> to state that <code>#andrewid</code> can open <code>&lt;andrewid.txt&gt;</code>, is needed.
+Likewise, the only certificates that are needed are those of <code>#andrewid</code>, <code>#root</code>, and <code>#ca</code>.
+It gathers these resources to attach to the request, signs the request with <code>#andrewid</code>'s secret key, and sends the request to the server.</p>
+<p>The full request for this example is shown below.</p>
+<pre><code>signature:
+*********************************** Credential ***********************************
+statement: (#root says open(#andrewid, &lt;andrewid.txt&gt;))
+signator: #andrewid
+signature: [ef:63:cb:70:64:52:38:33:16:e6:88:e5:41:11:de:f7]
+**********************************************************************************
+
+credentials:
+*********************************** Credential ***********************************
+statement: open(#andrewid, &lt;andrewid.txt&gt;)
+signator: #root
+signature: [50:f0:40:3d:91:31:f3:ec:d2:99:bd:e6:b5:6c:8b:02]
+**********************************************************************************
+
+certificates:
+============================= Public Key Certificate =============================
+key: [43:c9:43:e6:28:37:ec:23:1a:bc:83:c6:eb:87:e8:6f]
+agent: #ca
+*********************************** Credential ***********************************
+statement: iskey(#ca, [43:c9:43:e6:28:37:ec:23:1a:bc:83:c6:eb:87:e8:6f])
+signator: #ca
+signature: [4a:89:91:6e:c8:18:f2:d1:4c:c6:a0:b6:e8:cb:bf:44]
+**********************************************************************************
+==================================================================================
+============================= Public Key Certificate =============================
+key: [2b:8f:e8:9b:8b:76:37:a7:3b:7e:85:49:9d:87:7b:3b]
+agent: #root
+*********************************** Credential ***********************************
+statement: iskey(#root, [2b:8f:e8:9b:8b:76:37:a7:3b:7e:85:49:9d:87:7b:3b])
+signator: #ca
+signature: [ac:84:67:26:09:c2:c0:39:0e:0a:13:70:f4:d7:3e:d2]
+**********************************************************************************
+==================================================================================
+============================= Public Key Certificate =============================
+key: [a2:56:e9:a5:c0:56:d9:32:7a:f1:5b:cb:ce:7a:13:47]
+agent: #andrewid
+*********************************** Credential ***********************************
+statement: iskey(#andrewid, [a2:56:e9:a5:c0:56:d9:32:7a:f1:5b:cb:ce:7a:13:47])
+signator: #ca
+signature: [79:56:b9:1e:0d:a3:fd:4c:2e:72:f2:04:c3:38:fc:cb]
+**********************************************************************************
+==================================================================================
+</code></pre>
+<h2 id="step-4-the-response">Step 4: The response</h2>
+<p>If the server is able to verify that each certificate and credential was properly signed, and that the proof is correct, then it sends a fresh new credential signed by <code>#root</code> authorizing <code>#andrewid</code> to open <code>&lt;andrewid.txt&gt;</code>.</p>
+<pre><code>*********************************** Credential ***********************************
+statement: open(#andrewid, &lt;andrewid.txt&gt;)
+signator: #root
+signature: [50:f0:40:3d:91:31:f3:ec:d2:99:bd:e6:b5:6c:8b:02]
+**********************************************************************************
+</code></pre>
+<h2 id="next-steps">Next steps</h2>
+<p>In the starter code, <code>prover.prove</code> always returns <code>None</code>. Your main job is to implement <a href="../tactics/">the prover</a>.</p>
+<p>You do not need to change anything in <code>auth.py</code>, but it is good to understand how requests are generated and sent, and the role that your prover plays in this process.</p>
 
 
 
