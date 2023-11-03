@@ -461,7 +461,7 @@ def new_user(ag: Agent, signator: Agent, save_private=True, save_cert=True) -> C
 def fingerprint(key: Ed25519PublicKey) -> str:
 	key_bytes = key.public_bytes(Encoding.Raw, PublicFormat.Raw)
 	digest = hashlib.md5(key_bytes).hexdigest()
-	return f"[{':'.join(a+b for a,b in zip(digest[::2], digest[1::2]))[:11]}]"
+	return f"[{':'.join(a+b for a,b in zip(digest[::2], digest[1::2]))}]"
 
 def verify_cert(
 	cert: Certificate,
