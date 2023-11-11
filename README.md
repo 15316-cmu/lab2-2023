@@ -17,6 +17,23 @@ There is [detailed documentation](https://15316-cmu.github.io/lab2-2023/) for th
 
 # What to hand in
 
+## Checkpoint
+
+For the checkpoint, you do not need to submit your lab or hand code in. You just need to demonstrate that you have completed the first authorization goal by running `auth.py` and getting the credential from the authorization server:
+```
+$ python src/auth.py <your andrewid> <your andrewid.txt> -s
+```
+If you see output like the following, then you have successfully passed the checkpoint:
+```
+*********************************** Credential ***********************************
+statement: open(#andrewid, <andrewid.txt>)
+signator: #root
+signature: [50:f0:40:3d:91:31:f3:ec:d2:99:bd:e6:b5:6c:8b:02]
+**********************************************************************************
+```
+
+## Final submission
+
 Submit your work on Gradescope. Create a `zip` archive of the repository, but make sure that you have not included the directory `lab1-2023` at the root of the archive. Additionally, there is no need to hand in test cases or files in `src/__pycache__`, and doing so may slow down processing by the autograder.
 
 You are encouraged to use the `handin.sh` script, which will create an appropriate archive in `handin.zip` to upload to Gradescope. This script will not work when run from Windows' `cmd.exe` or Powershell, but you may translate it to use native Windows commands if you are not already using the WSL2 setup described at the top of this readme.
