@@ -269,19 +269,25 @@
     What to hand in
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="What to hand in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#checkpoint" class="md-nav__link">
     Checkpoint
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#final-submission" class="md-nav__link">
     Final submission
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -452,19 +458,25 @@
     What to hand in
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="What to hand in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#checkpoint" class="md-nav__link">
     Checkpoint
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#final-submission" class="md-nav__link">
     Final submission
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -504,7 +516,7 @@
 <li>Gain experience identifying flaws in code that deals with authentication decisions, and developing exploits that leverage such flaws.</li>
 </ul>
 <h2 id="what-to-hand-in">What to hand in</h2>
-<h2 id="checkpoint">Checkpoint</h2>
+<h3 id="checkpoint">Checkpoint</h3>
 <p>For the checkpoint, you do not need to submit your lab or hand code in. You just need to demonstrate that you have completed the first authorization goal by running <code>auth.py</code> and getting the credential from the authorization server:</p>
 <pre><code>$ python src/auth.py &lt;your andrewid&gt; &lt;your andrewid.txt&gt; -s
 </code></pre>
@@ -515,7 +527,7 @@ signator: #root
 signature: [50:f0:40:3d:91:31:f3:ec:d2:99:bd:e6:b5:6c:8b:02]
 **********************************************************************************
 </code></pre>
-<h2 id="final-submission">Final submission</h2>
+<h3 id="final-submission">Final submission</h3>
 <p>Submit your work on Gradescope. Create a <code>zip</code> archive of the repository, but make sure that you have not included the directory <code>lab1-2023</code> at the root of the archive. Additionally, there is no need to hand in test cases or files in <code>src/__pycache__</code>, and doing so may slow down processing by the autograder.</p>
 <p>You are encouraged to use the <code>handin.sh</code> script, which will create an appropriate archive in <code>handin.zip</code> to upload to Gradescope. This script will not work when run from Windows' <code>cmd.exe</code> or Powershell, but you may translate it to use native Windows commands if you are not already using the WSL2 setup described at the top of this readme.</p>
 <h2 id="evaluation">Evaluation</h2>
